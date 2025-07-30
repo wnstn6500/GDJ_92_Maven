@@ -1,7 +1,9 @@
 package com.winter.app.board.notice;
 
-import com.winter.app.board.BoardDAO;
+import org.apache.ibatis.annotations.Mapper;
 
-public class NoticeDAO implements BoardDAO {
+import com.winter.app.board.BoardDAO;
+@Mapper
+public interface NoticeDAO extends BoardDAO {
 
 }
