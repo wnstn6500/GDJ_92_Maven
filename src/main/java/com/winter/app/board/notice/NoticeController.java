@@ -82,5 +82,23 @@ public class NoticeController {
 		return "commons/result";//"redirect:./detail?boardNum="+noticeVO.getBoardNum();
 	}
 	
+	@PostMapping("delete")
+	public String delete(NoticeVO noticeVO, Model model)throws Exception{
+		int result = noticeService.delete(noticeVO);
+		String msg = "삭제 실패";
+		
+		if(result>0) {
+			msg="삭제 성공";
+		}
+		
+		String url="./list";
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", url);
+		
+		return "commons/result";
+		
+	}
+	
 	
 }

@@ -34,6 +34,10 @@
   		
   	</update>
   	
+  	<delete id="delete" parameterType="NoticeVO">
+  		DELETE FROM NOTICE WHERE BOARD_NUM=#{boardNum}
+  	</delete>
+  	
   	
   	
   	
