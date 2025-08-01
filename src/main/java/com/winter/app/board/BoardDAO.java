@@ -1,6 +1,10 @@
 package com.winter.app.board;
 
+import java.util.List;
+
 public interface BoardDAO {
+	
+	public List<BoardVO> list()throws Exception;
 	
 	//detail
 	public BoardVO detail(BoardVO boardVO)throws Exception;
