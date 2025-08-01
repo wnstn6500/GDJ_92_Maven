@@ -21,6 +21,14 @@
 					<h3>${vo.boardTitle}</h3>
 					<h3>${vo.boardContents}</h3>
 					
+					<div>
+						<form id="frm">
+							<input type="hidden" name="boardNum" value="${vo.boardNum}">
+						</form>
+						
+						<button class="btn btn-outline-success action" data-kind="u">Update</button>
+						<button class="btn btn-outline-danger action" data-kind="d">Delete</button>
+					</div>
 				</div>
 			</div>
 			<!--  End Content  -->
@@ -30,6 +38,6 @@
 		
 	</div>
 	<c:import url="/WEB-INF/views/include/tail.jsp"></c:import>
-	
+	<script type="text/javascript" src="/js/board/board_detail.js"></script>
 </body>
 </html>
