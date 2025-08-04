@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -32,10 +33,52 @@ public class ProductController {
 		return "products/product_form";
 	}
 	
-	@GetMapping("update")
-	public String update()throws Exception{
+	@PostMapping("add")
+	public String add(ProductVO productVO, Model model)throws Exception{
+		int result=productService.insert(productVO);
 		
+		String msg="상품 등록 실패";
+		if(result>0) {
+			msg= "상품등록 성공";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", "./list");
+		
+		return "commons/result";
+	}
+	
+	@GetMapping("update")
+	public String update(ProductVO productVO, Model model)throws Exception{
+		productVO = productService.detail(productVO);
+		model.addAttribute("vo", productVO);
 		return "products/product_form";
 	}
 
+	@PostMapping("update")
+	public String updateProcess(ProductVO productVO, Model model)throws Exception{
+		int result = productService.update(productVO);
+		String msg="상품 수정 실패";
+		if(result>0) {
+			msg= "상품 수정 성공";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", "./detail?productNum="+productVO.getProductNum());
+		return "commons/result";
+	}
+	
+	@PostMapping("delete")
+	public String delete(ProductVO productVO, Model model)throws Exception{
+		int result = productService.delete(productVO);
+		String msg="상품 삭제 실패";
+		if(result>0) {
+			msg= "상품 삭제 성공";
+		}
+		
+		model.addAttribute("msg", msg);
+		model.addAttribute("url", "./list");
+		return "commons/result";
+	}	
+	
 }
