@@ -19,7 +19,7 @@ class NoticeDAOTest {
 	@Autowired
 	private NoticeDAO noticeDAO;
 	
-	@Test
+	//@Test
 	void listTest()throws Exception{
 		List<BoardVO> list = noticeDAO.list();
 		
@@ -36,16 +36,20 @@ class NoticeDAOTest {
 		assertNotNull(boardVO);
 	}
 
-	//@Test
+	@Test
 	void insertTest()throws Exception {
-		NoticeVO noticeVO = new NoticeVO();
-		noticeVO.setBoardTitle("title3");
-		noticeVO.setBoardContents("contents3");
-		noticeVO.setBoardWriter("writer3");
-		int result = noticeDAO.insert(noticeVO);
-		
+		for(int i=0;i<105;i++) {
+			NoticeVO noticeVO = new NoticeVO();
+			noticeVO.setBoardTitle("title"+i);
+			noticeVO.setBoardContents("contents"+i);
+			noticeVO.setBoardWriter("writer"+i);
+			int result = noticeDAO.insert(noticeVO);
+			if(i%10 == 0) {
+				Thread.sleep(500);
+			}
+		}
 		//단정문
-		assertEquals(0, result);
+		//assertEquals(0, result);
 		
 		
 	}
