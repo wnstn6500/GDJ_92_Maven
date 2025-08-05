@@ -27,7 +27,7 @@ public class NoticeController {
 		
 		model.addAttribute("list", list);
 		
-		return "notice/list";
+		return "board/list";
 	}
 	
 	@GetMapping("detail")
@@ -41,13 +41,13 @@ public class NoticeController {
 		
 		model.addAttribute("vo", boardVO);
 		
-		return "notice/detail";
+		return "board/detail";
 	}
 	
 	@GetMapping("add")
 	public String insert()throws Exception{
 		
-		return "notice/add";
+		return "board/add";
 	}
 	
 	@PostMapping("add")
@@ -61,7 +61,7 @@ public class NoticeController {
 		BoardVO boardVO = noticeService.detail(noticeVO);
 		model.addAttribute("vo", boardVO);
 		
-		return "notice/add";
+		return "board/add";
 	}
 	
 	@PostMapping("update")

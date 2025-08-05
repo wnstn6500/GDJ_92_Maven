@@ -28,6 +28,7 @@
 						
 						<button class="btn btn-outline-success action" data-kind="u">Update</button>
 						<button class="btn btn-outline-danger action" data-kind="d">Delete</button>
+						<button class="btn btn-outline-primary action" data-kind="r">Reply</button>
 					</div>
 				</div>
 			</div>
