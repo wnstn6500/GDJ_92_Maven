@@ -2,9 +2,13 @@ package com.winter.app.board;
 
 import java.util.List;
 
+import com.winter.app.commons.Pager;
+
 public interface BoardDAO {
 	
-	public List<BoardVO> list()throws Exception;
+	public List<BoardVO> list(Pager pager)throws Exception;
+	
+	public Long totalCount()throws Exception;
 	
 	//detail
 	public BoardVO detail(BoardVO boardVO)throws Exception;

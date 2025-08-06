@@ -2,6 +2,8 @@ package com.winter.app.board.qna;
 
 import java.util.List;
 import com.winter.app.board.notice.NoticeService;
+import com.winter.app.commons.Pager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,9 +23,12 @@ public class QnaService implements BoardService{
     }
 
 	@Override
-	public List<BoardVO> list() throws Exception {
+	public List<BoardVO> list(Pager pager) throws Exception {
 		// TODO Auto-generated method stub
-		return qnaDAO.list();
+		Long totalCount = qnaDAO.totalCount();
+		pager.makeNum(totalCount);
+		
+		return qnaDAO.list(pager);
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.winter.app.board.BoardVO;
+import com.winter.app.commons.Pager;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -31,9 +32,11 @@ public class NoticeController {
 	}
 	
 	@GetMapping("list")
-	public String list(Model model)throws Exception{
+	public String list(@ModelAttribute Pager pager, Model model)throws Exception{
 		//
-		List<BoardVO> list = noticeService.list();
+		
+		List<BoardVO> list = noticeService.list(pager);
+		
 		
 		model.addAttribute("list", list);
 		
