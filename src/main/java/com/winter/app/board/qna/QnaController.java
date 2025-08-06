@@ -8,11 +8,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.winter.app.commons.Pager;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Controller
 @RequestMapping("/qna/*")
+@Slf4j
 public class QnaController {
 	
 	@Autowired
@@ -63,8 +67,9 @@ public class QnaController {
 	}
 	
 	@PostMapping("add")
-	public String insert(QnaVO qnaVO)throws Exception{
-		int result = qnaService.insert(qnaVO);
+	public String insert(QnaVO qnaVO, MultipartFile attaches)throws Exception{
+		
+		int result = qnaService.insert(qnaVO, attaches);
 		return "redirect:./list";
 	}
 
