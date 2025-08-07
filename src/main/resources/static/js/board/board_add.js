@@ -4,9 +4,32 @@
 const add = document.getElementById("add")
 const result = document.getElementById("result")
 const del = document.querySelectorAll(".del")
+const deleteFile = document.querySelectorAll(".deleteFile");
 
-let count=0;
+let count=result.getAttribute("data-file-count");
 
+//-------------------------------------------
+deleteFile.forEach( (item)=>{
+	item.addEventListener("click", function(){
+		//fetch, axios
+		let params = new URLSearchParams();
+		params.append("fileNum", 2)
+		
+		fetch(`./fileDelete`, {
+			method:"post",
+			body:params
+		})
+		.then(r=>r.json())
+		.then(r=>{
+			console.log(r)
+		})
+		
+	})
+	
+})
+
+
+//-------------------------------------------
 add.addEventListener("click", ()=>{
 /*	result.innerHTML+=`<div class="mb-3">
 						<input type="file" class="form-control" name="attaches">
