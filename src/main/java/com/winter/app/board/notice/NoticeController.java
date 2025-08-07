@@ -67,7 +67,7 @@ public class NoticeController {
 	}
 	
 	@PostMapping("add")
-	public String insert(NoticeVO noticeVO, MultipartFile attaches)throws Exception{
+	public String insert(NoticeVO noticeVO, MultipartFile [] attaches)throws Exception{
 	
 		int result = noticeService.insert(noticeVO, attaches);
 		return "redirect:./list";

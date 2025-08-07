@@ -12,11 +12,12 @@
   		<result column="BOARD_CONTENTS" property="boardContents"/>
   		<result column="BOARD_DATE" property="boardDate"/>
   		<result column="BOARD_HIT" property="boardHit"/>
-  		<association property="boardFileVO" javaType="BoardFileVO">
-  		<id column="FILE_NUM" property="fileNum"/>
-  		<result column="ORI_NAME" property="oriName"/>
-  		<result column="SAVE_NAME" property="saveName"/>	
-  		</association>
+  		<collection property="boardFileVOs" javaType="java.util.List" ofType="BoardFileVO">
+	  		<id column="FILE_NUM" property="fileNum" />
+	  		<result column="ORI_NAME" property="oriName"/>
+	  		<result column="SAVE_NAME" property="saveName"/>	
+  		</collection>
+  		
   		
   	</resultMap>
   	
@@ -91,6 +92,10 @@
   	
   	<delete id="delete" parameterType="NoticeVO">
   		DELETE FROM NOTICE WHERE BOARD_NUM=#{boardNum}
+  	</delete>
+  	
+  	<delete id="fileDelete" parameterType="NoticeVO" >
+  		DELETE FROM NOTICEFILES WHERE BOARD_NUM=#{boardNum}
   	</delete>
   	
   	

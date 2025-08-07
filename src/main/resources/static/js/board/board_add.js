@@ -5,11 +5,19 @@ const add = document.getElementById("add")
 const result = document.getElementById("result")
 const del = document.querySelectorAll(".del")
 
+let count=0;
+
 add.addEventListener("click", ()=>{
 /*	result.innerHTML+=`<div class="mb-3">
 						<input type="file" class="form-control" name="attaches">
 						<button class="del" type="button">X</button>
 					  </div>`*/
+					  
+	
+	if(count>4){
+		alert('최대 5개 가능');
+		return;
+	}				  
 	let div = document.createElement("div") //<div></div>
 	div.classList.add("mb-3")			    //<div class="mb-3"></div>	  
 	
@@ -29,13 +37,14 @@ add.addEventListener("click", ()=>{
 	
 	result.append(div);
 			  
-					  
+	count++;				  
 	
 })
 
 result.addEventListener("click", (e)=>{
 	if(e.target.classList.contains("del")){
 		e.target.parentElement.remove();
+		count--;
 	}
 })
 
