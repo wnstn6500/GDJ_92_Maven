@@ -32,7 +32,7 @@ public class NoticeService implements BoardService {
 	@Override
 	public List<BoardVO> list(Pager pager) throws Exception {
 		// TODO Auto-generated method stub
-		Long totalCount= noticeDAO.totalCount();
+		Long totalCount= noticeDAO.totalCount(pager);
 		pager.makeNum(totalCount);
 		return noticeDAO.list(pager);
 	}
@@ -47,7 +47,10 @@ public class NoticeService implements BoardService {
 	public int insert(BoardVO boardVO, MultipartFile attaches) throws Exception {
 		int result = noticeDAO.insert(boardVO);
 		
-		// TODO Auto-generated method stub
+	
+		if(attaches == null || attaches.isEmpty()) {
+			return result;
+		}
 		//1. File을 HDD에 저장
 		String fileName = fileManager.fileSave(upload+board, attaches);
 		
