@@ -54,7 +54,15 @@
 									<c:catch>
 									<c:forEach begin="1" end="${vo.boardDepth}">--</c:forEach>
 									</c:catch>
-									<a href="./detail?boardNum=${vo.boardNum}">${vo.boardTitle}</a></td>
+									<c:choose>
+										<c:when test="${empty vo.boardTitle}">
+											삭제된 글입니다
+										</c:when>
+										<c:otherwise>										
+											<a href="./detail?boardNum=${vo.boardNum}">${vo.boardTitle}</a>
+										</c:otherwise>
+									</c:choose>
+									</td>
 									<td>${vo.boardWriter}</td>
 									<td>${vo.boardDate}</td>
 									<td>${vo.boardHit}</td>

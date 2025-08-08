@@ -38,7 +38,7 @@ public class QnaService implements BoardService{
 	@Override
 	public List<BoardVO> list(Pager pager) throws Exception {
 		// TODO Auto-generated method stub
-		Long totalCount = qnaDAO.totalCount();
+		Long totalCount = qnaDAO.totalCount(pager);
 		pager.makeNum(totalCount);
 		
 		return qnaDAO.list(pager);
@@ -63,36 +63,92 @@ public class QnaService implements BoardService{
 	}
 
 	@Override
-	public int insert(BoardVO boardVO, MultipartFile attaches) throws Exception {
+	public int insert(BoardVO boardVO, MultipartFile [] attaches) throws Exception {
 		// TODO Auto-generated method stub
 		int result = qnaDAO.insert(boardVO);
 		//ref값을 update
 		result = qnaDAO.refUpdate(boardVO);
 		
-		//1. File을 HDD에 저장
-		String fileName = fileManager.fileSave(upload+board, attaches);
 		
-		//2. 저장된 파일의 정보를 DB에 저장
-		BoardFileVO vo = new BoardFileVO();
-		vo.setOriName(attaches.getOriginalFilename());
-		vo.setSaveName(fileName);
-		vo.setBoardNum(boardVO.getBoardNum());
-		result = qnaDAO.insertFile(vo);
+		if(attaches == null) {
+			return result;
+		}
+		
+		//1. 파일을 HDD에 저장
+		for(MultipartFile m:attaches) {
+			if(m == null || m.isEmpty()) {
+				continue;
+			}
+			//1. File을 HDD에 저장
+			String fileName = fileManager.fileSave(upload+board, m);
+			
+			//2. 저장된 파일의 정보를 DB에 저장
+			BoardFileVO vo = new BoardFileVO();
+			vo.setOriName(m.getOriginalFilename());
+			vo.setSaveName(fileName);
+			vo.setBoardNum(boardVO.getBoardNum());
+			result = qnaDAO.insertFile(vo);
+		}
+			
 		
 		return result;//noticeDAO.insert(boardVO);
 	}
 
 	@Override
-	public int update(BoardVO boardVO) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+	public int update(BoardVO boardVO, MultipartFile [] attaches) throws Exception {
+		int result = qnaDAO.update(boardVO);
+		
+		if(attaches == null) {
+			return result;
+		}
+		
+		//1. 파일을 HDD에 저장
+		for(MultipartFile m:attaches) {
+			if(m == null || m.isEmpty()) {
+				continue;
+			}
+			//1. File을 HDD에 저장
+			String fileName = fileManager.fileSave(upload+board, m);
+			
+			//2. 저장된 파일의 정보를 DB에 저장
+			BoardFileVO vo = new BoardFileVO();
+			vo.setOriName(m.getOriginalFilename());
+			vo.setSaveName(fileName);
+			vo.setBoardNum(boardVO.getBoardNum());
+			result = qnaDAO.insertFile(vo);
+		}
+			
+		
+		return result;
 	}
 
 	@Override
 	public int delete(BoardVO boardVO) throws Exception {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		
+		boardVO = qnaDAO.detail(boardVO);
+		
+		for(BoardFileVO vo : boardVO.getBoardFileVOs()) {
+			fileManager.fileDelete(upload+board, vo.getSaveName());
+		}
+		
+		int result = qnaDAO.fileDelete(boardVO);
+		
+		result = qnaDAO.delete(boardVO);
+		
+		return result;
 	}
 	
+	@Override
+	public int fileDelete(BoardFileVO boardFileVO) throws Exception {
+		//1. File 조회
+		boardFileVO = qnaDAO.fileDetail(boardFileVO);
+		//2. File 삭제
+		boolean result =fileManager.fileDelete(upload+board, boardFileVO.getSaveName());
+		
+		//3. DB 삭제
+		
+		return qnaDAO.fileDeleteOne(boardFileVO);
+	}	
 	
 }

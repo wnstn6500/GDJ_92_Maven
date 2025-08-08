@@ -16,30 +16,51 @@
   		<result column="BOARD_REF" property="boardRef"/>
   		<result column="BOARD_Step" property="boardStep"/>
   		<result column="BOARD_Depth" property="boardDepth"/>
-  		<association property="boardFileVO" javaType="BoardFileVO">
-  		<id column="FILE_NUM" property="fileNum"/>
-  		<result column="ORI_NAME" property="oriName"/>
-  		<result column="SAVE_NAME" property="saveName"/>	
-  		</association>
+  		<collection property="boardFileVOs" javaType="java.util.List" ofType="BoardFileVO">
+	  		<id column="FILE_NUM" property="fileNum" />
+	  		<result column="ORI_NAME" property="oriName"/>
+	  		<result column="SAVE_NAME" property="saveName"/>	
+  		</collection>
   		
   	</resultMap>
-  	
+  
+    	<sql id="search">
+  		<where>
+  		 <choose>
+  		 	<when test="kind=='k1'">
+  		 		BOARD_TITLE
+  		 	</when>
+  		 	
+  		 	<when test="kind=='k2'">
+  		 		BOARD_CONTENTS
+  		 	</when>
+  		 	
+  		 	<otherwise>
+  		 		BOARD_WRITER
+  		 	</otherwise>
+  		 
+  		 </choose>
+  		 LIKE CONCAT('%',#{keyword}, '%')
+  		 </where>
+  	</sql>	
   	
   	<select id="list" resultType="QnaVO" parameterType="Pager">
   		SELECT * FROM QNA 
+  		<include refid="search"></include>
   		ORDER BY BOARD_REF DESC, BOARD_STEP ASC
   		limit #{startIndex}, #{endIndex}
   	</select>
   
     	
-  	<select id="totalCount" resultType="Long">
+  	<select id="totalCount" resultType="Long" parameterType="Pager">
   		SELECT COUNT(BOARD_NUM) FROM QNA
+  		<include refid="search"></include>
   	</select>
   
   
   	<select id="detail" parameterType="QnaVO" resultMap="detailResult">
   		 SELECT * FROM 
-  			NOTICE N
+  			QNA N
   			LEFT JOIN
   			QNAFILES F
   			USING(board_num)
@@ -73,8 +94,8 @@
   		WHERE BOARD_REF=#{boardRef} AND BOARD_STEP > #{boardStep}
   	</update>
   	
-  	<update id="update" parameterType="NoticeVO">
-  		UPDATE NOTICE
+  	<update id="update" parameterType="QnaVO">
+  		UPDATE QNA
   		SET 
   			BOARD_TITLE=#{boardTitle},
   			BOARD_CONTENTS=#{boardContents}
@@ -83,11 +104,21 @@
   		
   	</update>
   	
-  	<delete id="delete" parameterType="NoticeVO">
-  		DELETE FROM NOTICE WHERE BOARD_NUM=#{boardNum}
+  	<delete id="delete" parameterType="QnaVO">
+  		UPDATE QNA SET BOARD_TITLE=null WHERE BOARD_NUM=#{boardNum}
   	</delete>
   	
+  	 <delete id="fileDelete" parameterType="QnaVO" >
+  		DELETE FROM QNAFILES WHERE BOARD_NUM=#{boardNum}
+  	</delete>
   	
+  	<select id="fileDetail" parameterType="BoardFileVO" resultType="BoardFileVO">
+  		SELECT * FROM QNAFILES WHERE FILE_NUM=#{fileNum}
+  	</select>
+  	
+  	<delete id="fileDeleteOne" parameterType="BoardFileVO">
+  		DELETE FROM QNAFILES WHERE FILE_NUM=#{fileNum}
+  	</delete>
   	
   	
   	
