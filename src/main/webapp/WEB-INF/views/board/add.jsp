@@ -8,6 +8,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <%@ include file="/WEB-INF/views/include/head_css.jsp"%>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
+
 </head>
 <body id="page-top">
 	<div id="wrapper">
@@ -20,7 +22,7 @@
 				<div class="container-fluid">
 					<!-- page contents 내용 -->
 					<div class="row justify-content-center ">
-						<div class="col-md-6">
+						<div class="col-md-8">
 							<form  method="post" enctype="multipart/form-data">
 								<input type="hidden" name="boardNum" value="${vo.boardNum}">
 								<div class="mb-3">
@@ -69,5 +71,45 @@
 	</div>
 	<c:import url="/WEB-INF/views/include/tail.jsp"></c:import>
 	<script type="text/javascript" src ="/js/board/board_add.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
+	<script type="text/javascript">
+	$("#contents").summernote({
+		callbacks:{
+			onImageUpload: function (files) {
+				console.log("files: ", files[0]);
+				let f = new FormData();
+				f.append("bf", files[0])
+				
+				fetch("./boardFile",{
+					method:"POST",
+					body:f
+				})
+				.then(r=>r.text())
+				.then(r=>{
+					$("#contents").summernote('editor.insertImage', r);
+				})
+				.catch(e => console.log(e))
+				
+				;
+			},
+			onMediaDelete: function(files){
+				let f = $(files[0]).attr("src"); // /files/notice/****.jpg
+				
+				let params = new URLSearchParams();
+				params.append("fileName", f);
+				fetch("./boardFileDelete", {
+					method:"POST",
+					body:params
+				})
+				.then(r=>r.json())
+				.then(r=>{
+					console.log(r)
+				})
+				
+			}
+		}
+		
+	})
+	</script>
 </body>
 </html>
