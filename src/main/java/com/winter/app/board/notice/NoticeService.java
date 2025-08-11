@@ -118,4 +118,10 @@ public class NoticeService implements BoardService {
 		
 		return noticeDAO.fileDeleteOne(boardFileVO);
 	}
+	
+	@Override
+	public BoardFileVO fileDetail(BoardFileVO boardFileVO) throws Exception {
+		// TODO Auto-generated method stub
+		return noticeDAO.fileDetail(boardFileVO);
+	}
 }
