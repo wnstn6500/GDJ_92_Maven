@@ -1,11 +1,14 @@
 package com.winter.app.commons;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.servlet.view.AbstractView;
 
 import com.winter.app.board.BoardFileVO;
@@ -44,7 +47,18 @@ public class FileDownView extends AbstractView {
 		response.setHeader("Content-Disposition", "attachment;filename=\""+fileName+"\"");
 		response.setHeader("Content-Transfer-Encoding", "binary");
 		
+		//File을 읽어 서
+		FileInputStream fi = new FileInputStream(file);
 		
+		//Clint로 연결
+		OutputStream os = response.getOutputStream();
+		
+		//전송
+		FileCopyUtils.copy(fi, os);
+		
+		//자원 해제
+		os.close();
+		fi.close();
 		
 	}
 
