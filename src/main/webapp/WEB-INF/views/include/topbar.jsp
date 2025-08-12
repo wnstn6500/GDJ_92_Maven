@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>	
 <!-- Topbar -->
 <nav
 	class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
@@ -24,7 +25,7 @@
 			</div>
 		</div>
 	</form>
-
+<c:if test="${not empty member}">
 	<!-- Topbar Navbar -->
 	<ul class="navbar-nav ml-auto">
 
@@ -50,7 +51,8 @@
 					</div>
 				</form>
 			</div></li>
-
+		
+		
 		<!-- Nav Item - Alerts -->
 		<li class="nav-item dropdown no-arrow mx-1"><a
 			class="nav-link dropdown-toggle" href="#" id="alertsDropdown"
@@ -189,6 +191,17 @@
 			</div></li>
 
 	</ul>
+</c:if>
 
+<c:if test="${empty member}">
+	<ul class="navbar-nav ml-auto">
+	<li class="nav-item mx-2">
+		<a href="/member/login">Login</a>
+	</li>	
+	
+		<li class="nav-item dropdown no-arrow mx-2"><a href="/member/join">Join</a></li>
+	</ul>
+
+</c:if>
 </nav>
 <!-- End of Topbar -->

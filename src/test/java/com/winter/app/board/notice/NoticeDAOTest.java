@@ -7,6 +7,8 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.winter.app.board.BoardVO;
 
@@ -14,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @SpringBootTest
 @Slf4j
+@Transactional
 class NoticeDAOTest {
 	
 	@Autowired
@@ -21,7 +24,7 @@ class NoticeDAOTest {
 	
 	//@Test
 	void listTest()throws Exception{
-		List<BoardVO> list = noticeDAO.list();
+		List<BoardVO> list = noticeDAO.list(null);
 		
 		assertNotEquals(0, list);
 				
@@ -37,19 +40,18 @@ class NoticeDAOTest {
 	}
 
 	@Test
+	@Rollback(false)
 	void insertTest()throws Exception {
-		for(int i=0;i<105;i++) {
+		
 			NoticeVO noticeVO = new NoticeVO();
-			noticeVO.setBoardTitle("title"+i);
-			noticeVO.setBoardContents("contents"+i);
-			noticeVO.setBoardWriter("writer"+i);
+			noticeVO.setBoardTitle("titleDelete");
+			noticeVO.setBoardContents("contents");
+			noticeVO.setBoardWriter("writer");
 			int result = noticeDAO.insert(noticeVO);
-			if(i%10 == 0) {
-				Thread.sleep(500);
-			}
-		}
+		
+		
 		//단정문
-		//assertEquals(0, result);
+		assertEquals(1, result);
 		
 		
 	}
