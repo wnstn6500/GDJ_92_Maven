@@ -61,6 +61,10 @@ public class MemberService {
 		
 		return result;
 	}
+	
+	public int cartAdd(Map<String, Object> map)throws Exception{
+		return memberDAO.cartAdd(map);
+	}
 
 
 }

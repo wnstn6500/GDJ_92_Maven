@@ -55,6 +55,11 @@
   		INSERT INTO MEMBER_ROLE (USERNAME, ROLE_NUM)
   		VALUES (#{username}, (SELECT ROLE_NUM FROM ROLE WHERE ROLE_NAME='ROLE_MEMBER'))
   	</insert>
+  	
+  	<insert id="cartAdd" parameterType="Map">
+  		INSERT INTO CART VALUES(#{username}, #{productNum})
+  	</insert>
+  	
   		
   </mapper>
   
