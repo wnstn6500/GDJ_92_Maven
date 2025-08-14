@@ -7,8 +7,16 @@ const checkAll = document.getElementById("checkAll");
 const ch = document.querySelectorAll(".ch")
 const frm = document.getElementById("frm")
 const del = document.getElementById("del")
+const add = document.getElementById("add")
+
+add.addEventListener("click", ()=>{
+	//체크 된것들이 하나 이상인지 검증
+	frm.setAttribute("action", "/account/add")
+	frm.submit();
+})
 
 del.addEventListener("click", ()=>{
+	//체크 된것들이 하나 이상인지 검증
 	frm.submit();
 })
 
