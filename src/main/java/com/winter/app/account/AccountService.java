@@ -40,7 +40,7 @@ public class AccountService {
 			Map<String, Object> map = new HashMap<>();
 			map.put("username",memberVO.getUsername());
 			map.put("list", Arrays.asList(productNum));
-			result =memberDAO.cartDelete(map);
+			memberDAO.cartDelete(map);
 		}
 		return result;
 	}
