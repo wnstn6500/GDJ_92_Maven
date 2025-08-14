@@ -26,7 +26,7 @@
 					<h2>kindName : ${vo.productKindVO.kindName}</h2>
 					
 					<div>
-						<form action="./delete" method="post">
+						<form action="./delete" method="post" >
 							<input type="hidden" name="productNum" value="${vo.productNum}">
 							<a class="btn btn-success" href="./update?productNum=${vo.productNum}">Update	</a>
 							<button class="btn btn-danger">Delete</button>
@@ -35,6 +35,10 @@
 					
 					<div>
 						<button class="btn btn-primary" id="cartAdd" data-product-num="${vo.productNum}">장바구니</button>
+						<form action="/account/add" method="post">
+							<input type="hidden" name="productNum" value="${vo.productNum}">
+							<button class="btn btn-primary" id="add" data-product-num="${vo.productNum}">가입</button>
+						</form>
 					</div>
 				</div>
 			</div>
