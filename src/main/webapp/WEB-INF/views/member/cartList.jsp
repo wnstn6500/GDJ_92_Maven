@@ -26,7 +26,7 @@
 								<tr>
 									<th>
 										<div class="form-check">
-										  <input class="form-check-input" type="checkbox" value="" id="checkAll">
+										  <input class="form-check-input"  type="checkbox" value="" id="checkAll">
 										  <label class="form-check-label" for="checkDefault">
 										    전체선택
 										  </label>
@@ -38,11 +38,12 @@
 								</tr>
 							</thead>
 							<tbody>
+							<form action="./cartDelete" method="post" id="frm">
 							<c:forEach items="${list}" var="vo">
 								<tr>
 									<td>
 										<div class="form-check">
-										  <input class="form-check-input ch" type="checkbox" value="${vo.productNum}">
+										  <input class="form-check-input ch" name="productNum" type="checkbox" value="${vo.productNum}">
 										</div>
 									</td>
 									<td>
@@ -52,8 +53,13 @@
 									<td>${vo.kindNum}</td>
 								</tr>
 							</c:forEach>	
+							</form>
 							</tbody>
 						</table>
+						
+						<div>
+							<button class="btn btn-danger" id="del">DELETE</button>
+						</div>
 						
 					</div>
 				</div>
@@ -65,6 +71,6 @@
 		
 	</div>
 	<c:import url="/WEB-INF/views/include/tail.jsp"></c:import>
-	<script type="text/javascript" src="/js/board/board_list.js"></script>
+	<script type="text/javascript" src="/js/cart/cartList.js"></script>
 </body>
 </html>

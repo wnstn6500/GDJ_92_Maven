@@ -79,6 +79,14 @@ public class MemberController {
 		model.addAttribute("list", list);
 	}
 	
+	@PostMapping("cartDelete")
+	public String cartDelete(Long [] productNum, HttpSession session)throws Exception{
+		MemberVO memberVO = (MemberVO)session.getAttribute("member");
+		int result = memberService.cartDelete(productNum, memberVO);
+		
+		return "redirect:./cartList";
+	}
+	
 	
 	
 }
