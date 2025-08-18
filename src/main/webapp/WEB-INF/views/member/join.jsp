@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,44 +24,45 @@
 					<!-- page contents 내용 -->
 					<div class="row justify-content-center ">
 						<div class="col-md-8">
-							<form  method="post" enctype="multipart/form-data">
+							<form:form  method="post" modelAttribute="memberVO" enctype="multipart/form-data">
 								<div class="mb-3">
 									<label for="username" class="form-label">ID</label> 
-									<input type="text" class="form-control" name="username"
-										id="username" aria-describedby="writerHelp">
+									<form:input path="username" cssClass="form-control"/>
+									<form:errors path="username"></form:errors>
 								</div>
 								<div class="mb-3">
 									<label for="password" class="form-label">PASSWORD</label> 
-									<input type="password" class="form-control" name="password"
-										id="password" aria-describedby="passwordHelp">
+									<form:password path="password" cssClass="form-control"/>
+									<form:errors path="password"></form:errors>
 								</div>		
 								<div class="mb-3">
 									<label for="passwordCheck" class="form-label">PASSWORD</label> 
 									<input type="password" class="form-control" name="passwordCheck"
 										id="passwordCheck" aria-describedby="passwordCheckHelp">
+									<form:errors path="passwordCheck"></form:errors>	
 								</div>																
 								<div class="mb-3">
 									<label for="name" class="form-label">NAME</label> 
-									<input type="text" class="form-control" name="name"
-										id="name" aria-describedby="nameHelp">
+									<form:input path="name" cssClass="form-control"/>
+									<form:errors path="name"></form:errors>
 								</div>
 								<div class="mb-3">
 									<label for="email" class="form-label">EMAIL</label> 
-									<input type="email" class="form-control" name="email"
-										id="email" aria-describedby="emailHelp">
+									<form:input path="email" cssClass="form-control"/>
+									<form:errors path="email"></form:errors>
 								</div>		
 								<div class="mb-3">
 									<label for="phone" class="form-label">PHONE</label> 
-									<input type="text" class="form-control" name="phone"
-										id="phone" aria-describedby="phoneHelp">
+									<form:input path="phone" cssClass="form-control"/>
 								</div>	
 								
-								<div>																						<div class="mb-3">
+								<div class="mb-3">																					<div class="mb-3">
 								<label for="birth" class="form-label">BIRTH</label> 
 									<input type="date" class="form-control" name="birth"
 										id="birth" aria-describedby="birthHelp">
+									<form:errors path="birth"></form:errors>
 								</div>
-								<div>	
+								<div class="mb-3">	
 								<label for="profile" class="form-label">PROFILE</label> 
 									<input type="file" class="form-control" name="profile"
 										id="profile">
@@ -70,7 +72,7 @@
 							
 
 								<button type="submit" class="btn btn-primary">Submit</button>
-							</form>
+							</form:form>
 						</div>
 					</div>
 
