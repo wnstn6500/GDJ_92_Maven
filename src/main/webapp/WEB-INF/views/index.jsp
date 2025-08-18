@@ -20,7 +20,9 @@
 					<!-- page contents 내용 -->
 					<h1>Index </h1>
 					<c:if test="${not empty member}">
+						<h3>Add GitHub</h3>
 						<h3>${member.name}</h3>
+						
 					</c:if>
 					
 				</div>
