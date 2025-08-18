@@ -13,7 +13,7 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 @Configuration
-public class MessageConfig implements WebMvcConfigurer {
+public class MessageConfig implements WebMvcConfigurer  {
 	
 	
 	@Bean
