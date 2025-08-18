@@ -56,6 +56,13 @@
   		VALUES (#{username}, (SELECT ROLE_NUM FROM ROLE WHERE ROLE_NAME='ROLE_MEMBER'))
   	</insert>
   	
+  	<update id="update" parameterType="MemberVO">
+  		UPDATE MEMBERS 
+  		SET	name=#{name}, email=#{email}, phone=#{phone}, birth=#{birth}
+  		WHERE username=#{username}
+  		
+  	</update>
+  	
   	<insert id="cartAdd" parameterType="Map">
   		INSERT INTO CART VALUES(#{username}, #{productNum})
   	</insert>

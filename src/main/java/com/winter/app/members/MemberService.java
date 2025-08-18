@@ -44,8 +44,16 @@ public class MemberService {
 		if(!memberVO.getPassword().equals(memberVO.getPasswordCheck())) {
 			check = true;
 			bindingResult.rejectValue("passwordCheck", "member.password.notEqual");
-			
 		}
+		
+		//3. ID 중복 검사
+		MemberVO result = memberDAO.login(memberVO);
+		
+		if(result != null) {
+			check=true;
+			bindingResult.rejectValue("username", "member.id.equal");
+		}
+		
 		
 		return check;
 	}
@@ -85,6 +93,12 @@ public class MemberService {
 		
 		return result;
 	}
+	
+	public int update(MemberVO memberVO)throws Exception{
+		return memberDAO.update(memberVO);
+		
+	}
+	
 	
 	public int cartAdd(Map<String, Object> map)throws Exception{
 		return memberDAO.cartAdd(map);

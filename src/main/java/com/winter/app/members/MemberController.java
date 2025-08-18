@@ -8,12 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.winter.app.members.validation.AddGroup;
+import com.winter.app.members.validation.UpdateGroup;
 import com.winter.app.products.ProductVO;
 
 
@@ -37,6 +40,36 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	@GetMapping("update")
+	public String update(HttpSession session, Model model) {
+		MemberVO memberVO = (MemberVO)session.getAttribute("member");
+		
+		model.addAttribute("memberVO", memberVO);
+		return "member/memberUpdate";
+	}
+	
+	@PostMapping("update")
+	public String update(HttpSession session, @Validated(UpdateGroup.class) MemberVO memberVO,BindingResult bindingResult, MultipartFile profile)throws Exception{
+		
+		if(bindingResult.hasErrors()) {
+			return "member/memberUpdate";
+		}
+		
+		MemberVO member = (MemberVO)session.getAttribute("member");
+		
+		memberVO.setUsername(member.getUsername());
+		
+		int result = memberService.update(memberVO);
+		
+		if(result>0) {
+			memberVO.setPassword(member.getPassword());
+			memberVO = memberService.login(memberVO);
+			session.setAttribute("member", memberVO);
+		}
+		
+		return "redirect:./detail";
+	}
+	
 	@GetMapping("login")
 	public void login() throws Exception{}
 	
@@ -56,7 +89,7 @@ public class MemberController {
 	public void join(MemberVO memberVO) throws Exception{}
 	
 	@PostMapping("join")
-	public String join(@Valid MemberVO memberVO, BindingResult bindingResult,MultipartFile profile) throws Exception{
+	public String join(@Validated({AddGroup.class, UpdateGroup.class}) MemberVO memberVO, BindingResult bindingResult,MultipartFile profile) throws Exception{
 		
 		boolean check = memberService.hasMemberError(memberVO, bindingResult);
 		

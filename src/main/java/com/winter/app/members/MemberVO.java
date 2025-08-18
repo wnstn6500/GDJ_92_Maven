@@ -3,6 +3,9 @@ package com.winter.app.members;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.winter.app.members.validation.AddGroup;
+import com.winter.app.members.validation.UpdateGroup;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.NotBlank;
@@ -20,22 +23,23 @@ import lombok.ToString;
 @ToString
 public class MemberVO {
 	
-	@NotBlank
+	@NotBlank(message = "ID는 필수", groups = AddGroup.class)
 	private String username;
 	@NotBlank
-	@Size(min =6, max = 8)
+	@Size(min =6, max = 8, groups = AddGroup.class)
 	private String password;
 	
 	
 	private String passwordCheck;
-	@NotBlank
+	@NotBlank(groups = {AddGroup.class, UpdateGroup.class})
 	private String name;
-	@Email
+	@Email(groups = {AddGroup.class, UpdateGroup.class})
 	private String email;
 	//@Pattern(regexp = "")
 	private String phone;
-	@NotNull
-	@Past
+	
+	@NotNull(groups = {AddGroup.class, UpdateGroup.class})
+	@Past(groups = {AddGroup.class, UpdateGroup.class})
 	private LocalDate birth;
 	private boolean accountNonExpired;
 	private boolean accountNonLocked;

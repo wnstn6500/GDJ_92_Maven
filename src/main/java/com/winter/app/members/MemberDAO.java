@@ -16,6 +16,8 @@ public interface MemberDAO {
 	
 	public int profileInsert(ProfileVO profileVO) throws Exception;
 	
+	public int update(MemberVO memberVO)throws Exception;
+	
 	public int addRole(Map<String, Object> map)throws Exception;
 	
 	public int cartAdd(Map<String, Object> map)throws Exception;
