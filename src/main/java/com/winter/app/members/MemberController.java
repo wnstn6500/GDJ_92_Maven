@@ -33,12 +33,7 @@ public class MemberController {
 	@GetMapping("detail")
 	public void detail()throws Exception{}
 	
-	@GetMapping("logout")
-	public String logout(HttpSession session)throws Exception{
-		session.invalidate();
-		
-		return "redirect:/";
-	}
+
 	
 	@GetMapping("update")
 	public String update(HttpSession session, Model model) {
@@ -73,17 +68,7 @@ public class MemberController {
 	@GetMapping("login")
 	public void login() throws Exception{}
 	
-	@PostMapping("login")
-	public String login(MemberVO memberVO, HttpSession session) throws Exception{
-		memberVO = memberService.login(memberVO);
-		
-		if(memberVO != null) {
-			session.setAttribute("member", memberVO);
-		}
-		
-		
-		return "redirect:/";
-	}
+
 
 	@GetMapping("join")
 	public void join(MemberVO memberVO) throws Exception{}

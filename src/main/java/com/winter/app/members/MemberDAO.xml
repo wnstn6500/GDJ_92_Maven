@@ -63,6 +63,10 @@
   		
   	</update>
   	
+  	<update id="passwordUpdate" parameterType="MemberVO">
+  		UPDATE MEMBERS SET PASSWORD=#{password} WHERE USERNAME=#{username}
+  	</update>
+  	
   	<insert id="cartAdd" parameterType="Map">
   		INSERT INTO CART VALUES(#{username}, #{productNum})
   	</insert>

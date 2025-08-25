@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>    
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %> 
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>   
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,15 +24,17 @@
 					<h3>
 						<spring:message code="welcome.message2" text="hi"></spring:message>
 					</h3>
-					<c:if test="${not empty member}">
+					<sec:authorize access="isAuthenticated()">
 						<h3>Add GitHub</h3>
-						<h3>${member.name}</h3>
+						<h3><sec:authentication property="name" /></h3>
 
 						<h3>
-							<spring:message code="user.info" arguments="${member.username};${member.email}" argumentSeparator=";" />
+							<sec:authentication property="principal" var="vo"/>
+							${vo.username}, ${vo.email}
+							<spring:message code="user.info" arguments="${vo.username};${vo.email}" argumentSeparator=";" />
 						</h3>
 
-					</c:if>
+					</sec:authorize>
 					
 				</div>
 			</div>

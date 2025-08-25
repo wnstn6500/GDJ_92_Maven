@@ -25,5 +25,7 @@ public interface MemberDAO {
 	public List<ProductVO> cartList(MemberVO memberVO) throws Exception;
 	
 	public int cartDelete(Map<String, Object> map)throws Exception;
+	
+	public int passwordUpdate(MemberVO memberVO)throws Exception;
 
 }
