@@ -104,6 +104,17 @@ public class SecurityConfig {
 					;
 			})
 			
+			.sessionManagement((s)->{
+				s
+				.invalidSessionUrl("/member/login")
+				.maximumSessions(2)
+				.maxSessionsPreventsLogin(false) //false : 이전사용자X true:현재접속사용자X
+				.expiredUrl("/")
+				
+				;
+			})
+			
+			
 			;
 		
 		return httpSecurity.build();	
