@@ -56,6 +56,7 @@ public class MemberVO implements UserDetails {
 	
 	private List<RoleVO> roleVOs;
 	
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method s

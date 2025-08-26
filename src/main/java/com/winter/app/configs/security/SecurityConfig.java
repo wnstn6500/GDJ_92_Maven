@@ -1,5 +1,6 @@
 package com.winter.app.configs.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -9,9 +10,26 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.util.AntPathMatcher;
 
+import com.winter.app.members.MemberService;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+	
+	@Autowired
+	private LoginSuccessHandler loginSuccessHandler;
+	
+	@Autowired
+	private LoginFailHandler loginFailHandler;
+	
+	@Autowired
+	private AddLogoutHandler addLogoutHandler;
+	
+	@Autowired
+	private AddLogoutSuccessHandler addLogoutSuccessHandler;
+	
+	@Autowired
+	private MemberService memberService;
 	
 	//정적자원들을 Security에서 제외
 	@Bean
@@ -38,7 +56,7 @@ public class SecurityConfig {
 			//권한에 관련된 설정
 			.authorizeHttpRequests(auth->{
 				auth
-					.requestMatchers("/notice/add", "/notice/update", "/notice/delete").hasRole("ADMIN")
+					.requestMatchers("/notice/add", "/notice/update", "/notice/delete").hasRole("ADMIN") //ROLE_ADMIN
 					.requestMatchers("/products/add", "/products/update", "/products/delete").hasAnyRole("MANAGER", "ADMIN")
 					//.requestMatchers("/member/detail", "/member/logout", "/member/update", "/member/delete").access("hasRole('ROLE_MEMBER') or hasRole('ROLE_MANAGER')")
 					.requestMatchers("/member/detail", "/member/logout", "/member/update", "/member/delete").authenticated()
@@ -46,24 +64,46 @@ public class SecurityConfig {
 					;
 			})
 			//form 관련 설정
+			//개발자가 로그인 검증을 하지 않는다, Security Filter에서 검증
 			.formLogin(form->{
 				form
 					.loginPage("/member/login")
-					//.usernameParameter("id")
-					//.passwordParameter("pw")
-					.defaultSuccessUrl("/")
-					.failureUrl("/member/login")
+					//.usernameParameter("id") , username
+					//.passwordParameter("pw") , password
+					//.defaultSuccessUrl("/")     // redirect
+					//.successForwardUrl(null)  // foward
+					.successHandler(loginSuccessHandler)
+					//.failureUrl("/member/login")
+					.failureHandler(loginFailHandler)
 					;
 			})
 			//logout 설정
+			//개발자가 아닌 Security Filter 처리
 			.logout((logout)->{
 				logout
 					.logoutUrl("/member/logout")
+					.addLogoutHandler(addLogoutHandler)
+					.logoutSuccessHandler(addLogoutSuccessHandler)
 					//.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"));
 					.invalidateHttpSession(true)
 					.deleteCookies("JSESSIONID")
-					.logoutSuccessUrl("/");
+					//.logoutSuccessUrl("/")
+					
+					;
+				
 			})
+			
+			.rememberMe((remember)->{
+				remember
+					.rememberMeParameter("remember-me")
+					.tokenValiditySeconds(60)
+					.key("rememberkey")
+					.userDetailsService(memberService)
+					.authenticationSuccessHandler(loginSuccessHandler)
+					.useSecureCookie(false)
+					;
+			})
+			
 			;
 		
 		return httpSecurity.build();	
