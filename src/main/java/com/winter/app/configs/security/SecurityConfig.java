@@ -114,6 +114,11 @@ public class SecurityConfig {
 				;
 			})
 			
+			.oauth2Login((o)->{
+				o.userInfoEndpoint((user)->{
+					user.userService(memberService);
+				});
+			})
 			
 			;
 		

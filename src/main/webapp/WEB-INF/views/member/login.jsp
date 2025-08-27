@@ -52,7 +52,7 @@
 							</form>
 							
 							<div>
-								<a class="btn btn-primary" href="/member/kakaoLogin">카카오로그인</a>
+								<a class="btn btn-primary" href="/oauth2/authorization/kakao">카카오로그인</a>
 							</div>
 						</div>
 					</div>

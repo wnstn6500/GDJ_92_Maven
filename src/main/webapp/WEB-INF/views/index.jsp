@@ -24,8 +24,8 @@
 					<h3>
 						<spring:message code="welcome.message2" text="hi"></spring:message>
 					</h3>
-					<sec:authorize access="isAuthenticated()">
-						<h3>Add GitHub</h3>
+ 					<sec:authorize access="isAuthenticated()">
+						<h3>Add GitHub ${vo.sns}</h3>
 						<h3><sec:authentication property="name" /></h3>
 
 						<h3>
