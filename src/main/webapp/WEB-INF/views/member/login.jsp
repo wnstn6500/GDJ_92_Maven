@@ -50,6 +50,10 @@
 								</div>								
 								<button type="submit" class="btn btn-primary">Submit</button>
 							</form>
+							
+							<div>
+								<a class="btn btn-primary" href="/member/kakaoLogin">카카오로그인</a>
+							</div>
 						</div>
 					</div>
 
